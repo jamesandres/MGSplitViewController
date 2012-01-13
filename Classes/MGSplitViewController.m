@@ -32,7 +32,6 @@
 - (void)layoutSubviewsWithAnimation:(BOOL)animate;
 - (void)layoutSubviewsForInterfaceOrientation:(UIInterfaceOrientation)theOrientation withAnimation:(BOOL)animate;
 - (BOOL)shouldShowMasterForInterfaceOrientation:(UIInterfaceOrientation)theOrientation;
-- (BOOL)shouldShowMaster;
 - (NSString *)nameOfInterfaceOrientation:(UIInterfaceOrientation)theOrientation;
 - (void)reconfigureForMasterInPopover:(BOOL)inPopover;
 
