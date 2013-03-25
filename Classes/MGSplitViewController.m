@@ -164,6 +164,11 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
+    if (self.detailViewController)
+    {
+        return [self.detailViewController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+    }
+
     return YES;
 }
 
