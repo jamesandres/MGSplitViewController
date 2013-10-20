@@ -245,8 +245,9 @@
 		height = fullScreenRect.size.width;
 	}
 	
-	// Account for status bar, which always subtracts from the height (since it's always at the top of the screen).
-	height -= statusBarHeight;
+	// Removed for iOS 7
+	// // Account for status bar, which always subtracts from the height (since it's always at the top of the screen).
+	// height -= statusBarHeight;
 	
 	return CGSizeMake(width, height);
 }
