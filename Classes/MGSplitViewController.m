@@ -348,7 +348,9 @@
 				}
 			}
 		}
-		
+
+		[self.view bringSubviewToFront:_dividerView];
+
 	} else {
 		// Master above, detail below (or vice versa).
 		CGRect masterRect, dividerRect, detailRect;
@@ -421,6 +423,9 @@
 				}
 			}
 		}
+
+		[self.view bringSubviewToFront:_dividerView];
+
 	}
 	
 	// Create corner views if necessary.
