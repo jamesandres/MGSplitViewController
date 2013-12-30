@@ -28,6 +28,7 @@ typedef enum _MGSplitViewDividerStyle {
     UIPopoverController *_hiddenPopoverController; // Popover used to hold the master view if it's not always visible.
 	MGSplitDividerView *_dividerView; // View that draws the divider between the master and detail views.
 	NSArray *_cornerViews; // Views to draw the inner rounded corners between master and detail views.
+	float _cornersRadius;
 	float _splitPosition;
 	BOOL _reconfigurePopup;
 	MGSplitViewDividerStyle _dividerStyle; // Meta-setting which configures several aspects of appearance and behaviour.
@@ -47,6 +48,7 @@ typedef enum _MGSplitViewDividerStyle {
 @property (nonatomic, retain) IBOutlet UIViewController *detailViewController; // convenience.
 @property (nonatomic, retain) MGSplitDividerView *dividerView; // the view which draws the divider/split between master and detail.
 @property (nonatomic, assign) MGSplitViewDividerStyle dividerStyle; // style (and behaviour) of the divider between master and detail.
+@property (nonatomic, assign) float cornersRadius; // The radius of the screen corners. When 0.0 no corners will be drawn.
 
 @property (nonatomic, readonly, getter=isLandscape) BOOL landscape; // returns YES if this view controller is in either of the two Landscape orientations, else NO.
 

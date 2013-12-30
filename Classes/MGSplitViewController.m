@@ -129,6 +129,7 @@
 	_vertical = YES;
 	_masterBeforeDetail = YES;
 	_splitPosition = MG_DEFAULT_SPLIT_POSITION;
+	_cornersRadius = MG_DEFAULT_CORNER_RADIUS;
 	CGRect divRect = self.view.bounds;
 	if ([self isVertical]) {
 		divRect.origin.y = _splitPosition;
@@ -427,20 +428,26 @@
 		[self.view bringSubviewToFront:_dividerView];
 
 	}
-	
+
 	// Create corner views if necessary.
 	MGSplitCornersView *leadingCorners; // top/left of screen in vertical/horizontal split.
 	MGSplitCornersView *trailingCorners; // bottom/right of screen in vertical/horizontal split.
-	if (!_cornerViews) {
+	if (_cornersRadius == 0.0) {
+		for (MGSplitCornersView *corner in _cornerViews) {
+			[corner removeFromSuperview];
+			[corner release];
+		}
+		_cornerViews = [[NSArray alloc] init];
+	} else if (!_cornerViews) {
 		CGRect cornerRect = CGRectMake(0, 0, 10, 10); // arbitrary, will be resized below.
 		leadingCorners = [[MGSplitCornersView alloc] initWithFrame:cornerRect];
 		leadingCorners.splitViewController = self;
 		leadingCorners.cornerBackgroundColor = MG_DEFAULT_CORNER_COLOR;
-		leadingCorners.cornerRadius = MG_DEFAULT_CORNER_RADIUS;
+		leadingCorners.cornerRadius = _cornersRadius;
 		trailingCorners = [[MGSplitCornersView alloc] initWithFrame:cornerRect];
 		trailingCorners.splitViewController = self;
 		trailingCorners.cornerBackgroundColor = MG_DEFAULT_CORNER_COLOR;
-		trailingCorners.cornerRadius = MG_DEFAULT_CORNER_RADIUS;
+		trailingCorners.cornerRadius = _cornersRadius;
 		_cornerViews = [[NSArray alloc] initWithObjects:leadingCorners, trailingCorners, nil];
 		[leadingCorners release];
 		[trailingCorners release];
@@ -448,6 +455,11 @@
 	} else if ([_cornerViews count] == 2) {
 		leadingCorners = [_cornerViews objectAtIndex:0];
 		trailingCorners = [_cornerViews objectAtIndex:1];
+	}
+	
+	// When cornersRadius is 0.0 there will be no _cornerViews
+	if ([_cornerViews count] == 0) {
+		return;
 	}
 	
 	// Configure and layout the corner-views.
@@ -1079,14 +1091,13 @@
 	_dividerStyle = newStyle;
 	
 	// Reconfigure general appearance and behaviour.
-	float cornerRadius;
 	if (_dividerStyle == MGSplitViewDividerStyleThin) {
-		cornerRadius = MG_DEFAULT_CORNER_RADIUS;
+		_cornersRadius = MG_DEFAULT_CORNER_RADIUS;
 		_splitWidth = MG_DEFAULT_SPLIT_WIDTH;
 		self.allowsDraggingDivider = NO;
 		
 	} else if (_dividerStyle == MGSplitViewDividerStylePaneSplitter) {
-		cornerRadius = MG_PANESPLITTER_CORNER_RADIUS;
+		_cornersRadius = MG_PANESPLITTER_CORNER_RADIUS;
 		_splitWidth = MG_PANESPLITTER_SPLIT_WIDTH;
 		self.allowsDraggingDivider = YES;
 	}
@@ -1095,7 +1106,7 @@
 	[_dividerView setNeedsDisplay];
 	if (_cornerViews) {
 		for (MGSplitCornersView *corner in _cornerViews) {
-			corner.cornerRadius = cornerRadius;
+			corner.cornerRadius = _cornersRadius;
 		}
 	}
 	
@@ -1124,6 +1135,11 @@
 	}
 	
 	return nil;
+}
+
+- (float)cornersRadius
+{
+	return _cornersRadius;
 }
 
 
